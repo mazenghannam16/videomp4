@@ -1,222 +1,163 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html dir="rtl" lang="ar" class="no-js">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مشغل فيديو احترافي</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #000;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes" name="viewport" />
 
-        .video-container {
-            position: relative;
-            width: 80%;
-            max-width: 800px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-        }
+<!----
+  Fuck You,  thief idiot   (⋋▂⋌) 
+--->
 
-        video {
-            width: 100%;
-            display: block;
-            border-radius: 10px;
-        }
+<title>Sky live app  | video player | app.skylivehd.com </title>
+<link href="https://cdn.plyr.io/3.4.4/plyr.css" rel="stylesheet" type="text/css" />
+<link href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet" />
+<link href="https://www.sharingiks.com/skylive/skyjs/skyplnew.css" rel="stylesheet" />
+<link href="https://vjs.zencdn.net/7.5.5/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+<link rel="shortcut icon" type="image/x-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimH-_YaQmA01Uwb7ynCSjCPVV7E6SoWUZy3h00EVmE996NFz2dU_09eh44qjOtP8mvCntYxGAjluVaLN6FRGe_nX-5J57EM_yD6aUaIi8GdYGLMPNm9_YxZJntZsWaUoq1DP1Un7kxcECVDmF6k5zZBlg5w0_4pPQPilDOCU-HbDNyAPtX2rLlIiPzpg/s256/1238418_ico.ico">
+<style>
+/* جميع الأنماط التي قدمتها مسبقًا */
+@font-face {
+font-family: "Neo Sans Arabic";
+font-style: normal;
+font-weight: normal;
+font-display: swap;
+src: local("Neo Sans Arabic"), url("https://cdn.statically.io/gh/yallashoot808/yalla-shoot-new/6a47ce1e/NeoSansArabic.woff") format("woff");
+}
+body.static_page {
+background: #000;
+font-family: Neo Sans Arabic, Changa, Segoe UI, sans-serif;
+margin: 0;
+}
+* {
+text-decoration: none;
+}
 
-        .background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: #000;
-            opacity: 0.8;
-            animation: moveBackground 10s infinite alternate ease-in-out;
-        }
-
-        @keyframes moveBackground {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .controls {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border-radius: 5px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .video-container:hover .controls {
-            opacity: 1;
-        }
-
-        .controls button {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .controls button:hover {
-            color: #ff0;
-        }
-
-        .progress-bar {
-            flex-grow: 1;
-            height: 5px;
-            background: #555;
-            margin: 0 10px;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .progress-bar .progress {
-            height: 100%;
-            background: #ff0;
-            width: 0;
-        }
-
-        .volume-control {
-            display: flex;
-            align-items: center;
-            margin-right: 10px;
-        }
-
-        .volume-control input {
-            width: 80px;
-            margin-left: 5px;
-        }
-
-        .fullscreen-btn {
-            margin-left: 10px;
-        }
-
-        .ripple {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: scale(0);
-            animation: rippleEffect 2s infinite;
-        }
-
-        @keyframes rippleEffect {
-            to {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-    </style>
+/* ... (بقية الأنماط) ... */
+</style>
 </head>
-<body>
-    <div class="video-container">
-        <div class="background"></div>
-        <video id="videoPlayer">
-            <source src="https://c.top4top.io/m_3313auwle0.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="controls">
-            <button id="playPauseBtn">▶️</button>
-            <div class="progress-bar" id="progressBar">
-                <div class="progress" id="progress"></div>
-            </div>
-            <div class="volume-control">
-                <button id="volumeBtn">🔊</button>
-                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
-            </div>
-            <button id="fullscreenBtn" class="fullscreen-btn">⛶</button>
-        </div>
-    </div>
+<body style="background-color: black;">
+<div class="main section" id="main">
+<div class="widget Blog" data-version="1" id="Blog1">
+<div class="post-outer">
 
-    <script>
-        const video = document.getElementById('videoPlayer');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const progressBar = document.getElementById('progressBar');
-        const progress = document.getElementById('progress');
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        const volumeBtn = document.getElementById('volumeBtn');
-        const volumeSlider = document.getElementById('volumeSlider');
+<a id="webcastx">
+<div id="webcastx">
+<div id="webcastx_message">
+<div class="c-slider"></div>
+<div class="c-slide">
+</div>
+</div>
+</div>
+</div>
+<script>
+// externalplayer
+function chromecast1() {
+if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+window.location = link;
+} else {
+location.href = "intent://.blogspot.com/p/chromecast.html?src=http://" + link + "#Intent;scheme=https;package=com.android.chrome;end";
+}
+}
+function webcastx() {
+if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+window.location = link;
+} else {
+location.href = "wvc-x-callback://open?url=" + link + "&secure_uri=true";
+}
+}
+function wuffy() {
+if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+window.location = link;
+} else {
+location.href = "intent://" + link + "#Intent;scheme=xmtv;package=co.wuffy.player;end";
+}
+}
+function mx() {
+if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+window.location = link;
+} else {
+location.href = "intent:" + link + "#Intent;package=com.mxtech.videoplayer.ad;end";
+}
+}
+</script>
 
-        // تشغيل/إيقاف الفيديو
-        playPauseBtn.addEventListener('click', () => {
-            if (video.paused) {
-                video.play();
-                playPauseBtn.textContent = '⏸️';
-            } else {
-                video.pause();
-                playPauseBtn.textContent = '▶️';
-            }
-        });
+<!--- changesizeScreen  --->
+<a onclick="changesizeScreen()" style="position: fixed; right: 55px; top: 18px; z-index: 999999999999999999999999999; width: 25px; height: auto;" target="_blank">
+<img src="https://i.imgur.com/BrfYnwa.png" style="height: 100%; width: 100%;" />
+</a>
 
-        // تحديث شريط التقدم
-        video.addEventListener('timeupdate', () => {
-            const percent = (video.currentTime / video.duration) * 100;
-            progress.style.width = `${percent}%`;
-        });
+<!--- refresh  --->
+<a class="refresh" href="javascript:window.location.reload()" style="position: fixed; right: 95px; top: 18px; z-index: 999; width: 26px; height: auto;">
+<img src="https://i.imgur.com/E0Lb1Sh.png" style="height: 100%; width: 100%;" />
+</a>
 
-        // الانتقال إلى جزء معين من الفيديو
-        progressBar.addEventListener('click', (e) => {
-            const clickTime = (e.offsetX / progressBar.offsetWidth) * video.duration;
-            video.currentTime = clickTime;
-        });
+<meta name="referrer" content="no-referrer" />
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<div class="mainch section" id="mainch">
+<div class="widget Blog" data-version="2" id="Blog11">
+<div class="post-body">
+<script type="text/javascript">
+function getUrlVars() {
+var vars = {};
+var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+vars[key] = value;
+});
+return vars;
+}
+// تغيير الرابط هنا إلى رابط MP4
+var link = "https://c.top4top.io/m_3313auwle0.mp4";
+</script>
+<video class="player" autoplay="true" controls="true" height="100%" poster="https://i.imgur.com/YvElrcL.png" id="player" width="100%"></video>
+<script>
+var video = document.getElementById("player");
+video.src = link;
+</script>
+</div>
+</div>
 
-        // وضع ملء الشاشة
-        fullscreenBtn.addEventListener('click', () => {
-            if (video.requestFullscreen) {
-                video.requestFullscreen();
-            } else if (video.mozRequestFullScreen) { // Firefox
-                video.mozRequestFullScreen();
-            } else if (video.webkitRequestFullscreen) { // Chrome, Safari
-                video.webkitRequestFullscreen();
-            } else if (video.msRequestFullscreen) { // IE/Edge
-                video.msRequestFullscreen();
-            }
-        });
+<script>
+//<![CDATA[
+//]]>
+</script>
 
-        // التحكم في الصوت
-        volumeSlider.addEventListener('input', () => {
-            video.volume = volumeSlider.value;
-            if (video.volume === 0) {
-                volumeBtn.textContent = '🔇';
-            } else {
-                volumeBtn.textContent = '🔊';
-            }
-        });
+<script src="https://vjs.zencdn.net/7.5.5/video.js"></script>
+<script src="//cdn.plyr.io/3.4.4/plyr.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+function loadCSS(e, t, n) {
+"use strict";
+var i = window.document.createElement("link");
+var o = t || window.document.getElementsByTagName("script")[0];
+i.rel = "stylesheet";
+i.href = e;
+i.media = "only x";
+o.parentNode.insertBefore(i, o);
+setTimeout(function () {
+i.media = n || "all";
+});
+}
+loadCSS("https://cdn.plyr.io/3.4.7/plyr.css");
+//]]>
+</script>
+<script type="text/javascript" src="https://cdn.plyr.io/3.4.7/plyr.js"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+const players = Array.from(document.querySelectorAll(".player")).map((p) => new Plyr(p));
+const plyrs = Array.from(document.querySelectorAll(".player")).map((plyrs) => new Plyr(plyrs));
+/*]]>*/
+</script>
 
-        // إضافة تموجات متحركة
-        setInterval(() => {
-            const ripple = document.createElement('div');
-            ripple.classList.add('ripple');
-            ripple.style.left = `${Math.random() * 100}%`;
-            ripple.style.top = `${Math.random() * 100}%`;
-            document.querySelector('.background').appendChild(ripple);
-            setTimeout(() => ripple.remove(), 2000);
-        }, 1000);
-    </script>
+<!--- snackbar  --->
+<a onclick="myFunction()" style="position: fixed; right: 135px; top: 15px; z-index: 999; width: 27px; height: auto;"><img src="https://i.imgur.com/PKcyiw8.png" style="height: 100%; width: 100%;" />
+</a>
+<div id="snackbar"style=" font-size: 13px; ">يجب تحميل تطبيق Web Video Cast لتفعيل الكاست..</div>
+<script>
+var _0x50df=["\x73\x6E\x61\x63\x6B\x62\x61\x72","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x63\x6C\x61\x73\x73\x4E\x61\x6D\x65","\x73\x68\x6F\x77","","\x72\x65\x70\x6C\x61\x63\x65"];function myFunction(){var _0x777ax2=document[_0x50df[1]](_0x50df[0]);_0x777ax2[_0x50df[2]]= _0x50df[3];setTimeout(function(){_0x777ax2[_0x50df[2]]= _0x777ax2[_0x50df[2]][_0x50df[5]](_0x50df[3],_0x50df[4])},3000)}</script>
+<noscript> </noscript>
+</div>
+</div>
+</div>
+</div>
 </body>
 </html>
