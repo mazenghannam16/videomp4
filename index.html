@@ -12,15 +12,16 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: #000; /* خلفية سوداء */
+            background: #000;
             overflow: hidden;
+            font-family: Arial, sans-serif;
         }
 
         .video-container {
             position: relative;
             width: 80%;
             max-width: 800px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); /* ظل أبيض ناعم */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
             border-radius: 10px;
             overflow: hidden;
         }
@@ -38,7 +39,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: #000; /* خلفية سوداء */
+            background: #000;
             opacity: 0.8;
             animation: moveBackground 10s infinite alternate ease-in-out;
         }
@@ -54,15 +55,168 @@
                 transform: scale(1);
             }
         }
+
+        .controls {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-container:hover .controls {
+            opacity: 1;
+        }
+
+        .controls button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .controls button:hover {
+            color: #ff0;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 5px;
+            background: #555;
+            margin: 0 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-bar .progress {
+            height: 100%;
+            background: #ff0;
+            width: 0;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .volume-control input {
+            width: 80px;
+            margin-left: 5px;
+        }
+
+        .fullscreen-btn {
+            margin-left: 10px;
+        }
+
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: rippleEffect 2s infinite;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="video-container">
         <div class="background"></div>
-        <video controls>
+        <video id="videoPlayer">
             <source src="https://c.top4top.io/m_3313auwle0.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+        <div class="controls">
+            <button id="playPauseBtn">▶️</button>
+            <div class="progress-bar" id="progressBar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="volume-control">
+                <button id="volumeBtn">🔊</button>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+            </div>
+            <button id="fullscreenBtn" class="fullscreen-btn">⛶</button>
+        </div>
     </div>
+
+    <script>
+        const video = document.getElementById('videoPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progress = document.getElementById('progress');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const volumeBtn = document.getElementById('volumeBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+
+        // تشغيل/إيقاف الفيديو
+        playPauseBtn.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                playPauseBtn.textContent = '⏸️';
+            } else {
+                video.pause();
+                playPauseBtn.textContent = '▶️';
+            }
+        });
+
+        // تحديث شريط التقدم
+        video.addEventListener('timeupdate', () => {
+            const percent = (video.currentTime / video.duration) * 100;
+            progress.style.width = `${percent}%`;
+        });
+
+        // الانتقال إلى جزء معين من الفيديو
+        progressBar.addEventListener('click', (e) => {
+            const clickTime = (e.offsetX / progressBar.offsetWidth) * video.duration;
+            video.currentTime = clickTime;
+        });
+
+        // وضع ملء الشاشة
+        fullscreenBtn.addEventListener('click', () => {
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.mozRequestFullScreen) { // Firefox
+                video.mozRequestFullScreen();
+            } else if (video.webkitRequestFullscreen) { // Chrome, Safari
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) { // IE/Edge
+                video.msRequestFullscreen();
+            }
+        });
+
+        // التحكم في الصوت
+        volumeSlider.addEventListener('input', () => {
+            video.volume = volumeSlider.value;
+            if (video.volume === 0) {
+                volumeBtn.textContent = '🔇';
+            } else {
+                volumeBtn.textContent = '🔊';
+            }
+        });
+
+        // إضافة تموجات متحركة
+        setInterval(() => {
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            ripple.style.left = `${Math.random() * 100}%`;
+            ripple.style.top = `${Math.random() * 100}%`;
+            document.querySelector('.background').appendChild(ripple);
+            setTimeout(() => ripple.remove(), 2000);
+        }, 1000);
+    </script>
 </body>
 </html>
